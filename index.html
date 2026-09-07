@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bimbo Contigo - Portal Administrativo</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+  <style>
+    :root {
+      --bimbo-navy: #0c1b33;
+      --bimbo-blue: #0056b3;
+      --bimbo-red: #e31837;
+      --bimbo-light: #f4f6f9;
+    }
+    
+    body {
+      background-color: var(--bimbo-light);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: 250px;
+      min-height: 100vh;
+      background-color: var(--bimbo-navy);
+      color: #fff;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+    }
+
+    .sidebar .brand {
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .sidebar .brand-logo {
+      width: 40px;
+      height: 40px;
+      background-color: var(--bimbo-red);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    .sidebar .nav-link {
+      color: #a0aec0;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.3s;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .sidebar .nav-link:hover, .sidebar .nav-link.active {
+      color: #fff;
+      background-color: rgba(255,255,255,0.05);
+      border-left: 4px solid var(--bimbo-red);
+    }
+
+    /* Main Content */
+    .main-content {
+      margin-left: 250px;
+      padding: 20px 30px;
+    }
+
+    /* Header */
+    .top-header {
+      background: #fff;
+      padding: 15px 30px;
+      margin-left: 250px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .user-badge {
+      width: 35px;
+      height: 35px;
+      background-color: var(--bimbo-blue);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .card-custom {
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar Sidebar Menu -->
+  <div class="sidebar">
+    <div class="brand">
+      <div class="brand-logo">B</div>
+      <div>
+        <h6 class="m-0 fw-bold">BIMBO</h6>
+        <small class="text-white-50">CONTIGO</small>
+      </div>
+    </div>
+    
+    <div class="mt-4">
+      <small class="px-3 text-muted fw-bold text-uppercase" style="font-size: 11px;">Menú Principal</small>
+      <div class="nav flex-column mt-2" id="v-pills-tab" role="tablist">
+        <a class="nav-link active" id="tab-clientes" data-bs-toggle="pill" data-bs-target="#sec-clientes" role="tab"><i class="bi bi-people-fill"></i> Clientes</a>
+        <a class="nav-link" id="tab-productos" data-bs-toggle="pill" data-bs-target="#sec-productos" role="tab"><i class="bi bi-box-seam-fill"></i> Productos</a>
+        <a class="nav-link" id="tab-pedidos" data-bs-toggle="pill" data-bs-target="#sec-pedidos" role="tab"><i class="bi bi-cart-fill"></i> Pedidos</a>
+        <a class="nav-link" id="tab-plantas" data-bs-toggle="pill" data-bs-target="#sec-plantas" role="tab"><i class="bi bi-building-fill"></i> Plantas</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Header -->
+  <div class="top-header">
+    <div>
+      <h5 class="m-0 fw-bold text-primary">Canales Institucionales</h5>
+      <small class="text-muted">Portal Administrativo</small>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+      <div class="text-end">
+        <div class="fw-bold" style="font-size: 14px;">operacionesbmb</div>
+        <small class="text-muted" style="font-size: 11px;">Último ingreso: 03 ago 2026</small>
+      </div>
+      <div class="user-badge">O</div>
+    </div>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="main-content">
+    <div class="tab-content" id="v-pills-tabContent">
+
+      <!-- ==================== SECCIÓN 1: CLIENTES ==================== -->
+      <div class="tab-pane fade show active" id="sec-clientes" role="tabpanel">
+        <div class="d-flex justify-content-between align-items-center my-4">
+          <div>
+            <h3 class="fw-bold">Módulo de Clientes</h3>
+            <p class="text-muted m-0">Gestión de clientes, sucursales y plantas asignadas</p>
+          </div>
+          <button class="btn btn-primary px-4 py-2 fw-semibold" style="background-color: #004494; border: none;" data-bs-toggle="modal" data-bs-target="#modalNuevoCliente">
+            <i class="bi bi-plus-lg me-1"></i> Nuevo Cliente
+          </button>
+        </div>
+
+        <!-- BARRA DE BÚSQUEDA DE CLIENTES -->
+        <div class="card card-custom p-3 mb-4">
+          <div class="row g-3 align-items-end">
+            <div class="col-md-9">
+              <label class="form-label fw-semibold text-secondary" style="font-size: 13px;">Buscar Cliente</label>
+              <div class="input-group input-group-sm">
+                <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
+                <input type="text" class="form-control" id="buscadorCliente" placeholder="Ingrese nombre, código, sucursal o canal del cliente...">
+              </div>
+            </div>
+            <div class="col-md-3 d-flex gap-2">
+              <button class="btn btn-sm btn-primary w-100 fw-semibold" style="background-color: #004494;" onclick="alert('Buscando cliente...');">
+                Buscar
+              </button>
+              <button class="btn btn-sm btn-outline-secondary" title="Limpiar Búsqueda" onclick="document.getElementById('buscadorCliente').value='';">
+                <i class="bi bi-arrow-counterclockwise"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card card-custom p-3">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Canal / Cliente</th>
+                <th>Contacto Principal</th>
+                <th>Sucursales Registradas</th>
+                <th>Planta Asignada</th>
+                <th>Estatus</th>
+                <th class="text-end">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <strong class="d-block">Cinépolis</strong>
+                  <small class="text-muted">Canal Entretenimiento</small>
+                </td>
+                <td>
+                  <div>Roberto Gómez</div>
+                  <small class="text-muted">rgomez@cinepolis.com</small>
+                </td>
+                <td>
+                  <span class="badge bg-primary-subtle text-primary border me-1"><i class="bi bi-geo-alt me-1"></i>3 Sucursales</span>
+                  <button class="btn btn-sm btn-link p-0 text-decoration-none fw-semibold" style="font-size: 12px;" data-bs-toggle="modal" data-bs-target="#modalGestionSucursales" onclick="cargarSucursales('Cinépolis');">
+                    Ver / Gestionar
+                  </button>
+                </td>
+                <td><span class="badge bg-light text-dark border">Planta Tlalnepantla</span></td>
+                <td><span class="badge bg-success-subtle text-success fw-bold">Activo</span></td>
+                <td class="text-end">
+                  <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#modalGestionSucursales" onclick="cargarSucursales('Cinépolis');" title="Gestionar Sucursales">
+                    <i class="bi bi-building-gear"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalEditarCliente" title="Editar Cliente">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong class="d-block">McDonald's</strong>
+                  <small class="text-muted">Canal Restaurantes</small>
+                </td>
+                <td>
+                  <div>Ana Patricia Ruiz</div>
+                  <small class="text-muted">aruiz@mcd.com</small>
+                </td>
+                <td>
+                  <span class="badge bg-primary-subtle text-primary border me-1"><i class="bi bi-geo-alt me-1"></i>5 Sucursales</span>
+                  <button class="btn btn-sm btn-link p-0 text-decoration-none fw-semibold" style="font-size: 12px;" data-bs-toggle="modal" data-bs-target="#modalGestionSucursales" onclick="cargarSucursales('McDonald\'s');">
+                    Ver / Gestionar
+                  </button>
+                </td>
+                <td><span class="badge bg-light text-dark border">Planta Guadalajara</span></td>
+                <td><span class="badge bg-success-subtle text-success fw-bold">Activo</span></td>
+                <td class="text-end">
+                  <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#modalGestionSucursales" onclick="cargarSucursales('McDonald\'s');" title="Gestionar Sucursales">
+                    <i class="bi bi-building-gear"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalEditarCliente" title="Editar Cliente">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ==================== SECCIÓN 2: PRODUCTOS ==================== -->
+      <div class="tab-pane fade" id="sec-productos" role="tabpanel">
+        <div class="d-flex justify-content-between align-items-center my-4">
+          <div>
+            <h3 class="fw-bold">Módulo de Productos</h3>
+            <p class="text-muted m-0">Administre el catálogo general y las listas de productos por cliente</p>
+          </div>
+        </div>
+
+        <ul class="nav nav-tabs mb-4" id="prodTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active fw-bold" id="cat-gen-tab" data-bs-toggle="tab" data-bs-target="#cat-gen" type="button" role="tab">
+              <i class="bi bi-box-seam me-1"></i> Catálogo General (Mantenimiento)
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link fw-bold" id="list-cli-tab" data-bs-toggle="tab" data-bs-target="#list-cli" type="button" role="tab">
+              <i class="bi bi-card-checklist me-1"></i> Asignación de Listas por Cliente
+            </button>
+          </li>
+        </ul>
+
+        <div class="tab-content" id="prodTabsContent">
+          <!-- Sub-pantalla 1: Catálogo General -->
+          <div class="tab-pane fade show active" id="cat-gen" role="tabpanel">
+            <div class="card card-custom p-4">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="fw-bold m-0">Todos los Productos en el Sistema</h5>
+                <button class="btn btn-sm btn-primary px-3 py-2 fw-semibold" style="background-color: #004494; border: none;" data-bs-toggle="modal" data-bs-target="#modalNuevoProducto">
+                  <i class="bi bi-plus-lg me-1"></i> Agregar Producto General
+                </button>
+              </div>
+
+              <table class="table table-hover align-middle">
+                <thead class="table-light">
+                  <tr>
+                    <th>SKU</th>
+                    <th>Nombre del Producto</th>
+                    <th>Marca</th>
+                    <th>Categoría</th>
+                    <th>Precio Base</th>
+                    <th class="text-end">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>BIM-1029</strong></td>
+                    <td>Pan de Molde Blanco Grande 680g</td>
+                    <td>Bimbo</td>
+                    <td>Pan Blanco</td>
+                    <td>$45.00 MXN</td>
+                    <td class="text-end">
+                      <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>BIM-2045</strong></td>
+                    <td>Pan Hamburguesa Super SÉSAMO 8P</td>
+                    <td>Bimbo</td>
+                    <td>Bollos</td>
+                    <td>$52.00 MXN</td>
+                    <td class="text-end">
+                      <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Sub-pantalla 2: Lista por Cliente -->
+          <div class="tab-pane fade" id="list-cli" role="tabpanel">
+            <div class="card card-custom p-4">
+              <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                  <label class="form-label fw-bold">Seleccionar Cliente para Asignación:</label>
+                  <select class="form-select">
+                    <option selected disabled>-- Seleccione un cliente --</option>
+                    <option value="1">Cinépolis</option>
+                    <option value="2">McDonald's</option>
+                  </select>
+                </div>
+              </div>
+
+              <h6 class="fw-bold mb-3">Marque los productos permitidos para este cliente:</h6>
+              <table class="table table-hover align-middle">
+                <thead class="table-light">
+                  <tr>
+                    <th style="width: 40px;"><input type="checkbox" class="form-check-input"></th>
+                    <th>SKU</th>
+                    <th>Producto</th>
+                    <th>Marca</th>
+                    <th>Estatus en Catálogo Cliente</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><input type="checkbox" class="form-check-input" checked></td>
+                    <td><strong>BIM-1029</strong></td>
+                    <td>Pan de Molde Blanco Grande 680g</td>
+                    <td>Bimbo</td>
+                    <td><span class="badge bg-success">Habilitado</span></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" class="form-check-input" checked></td>
+                    <td><strong>BIM-2045</strong></td>
+                    <td>Pan Hamburguesa Super SÉSAMO 8P</td>
+                    <td>Bimbo</td>
+                    <td><span class="badge bg-success">Habilitado</span></td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div class="text-end mt-3">
+                <button class="btn btn-primary px-4" style="background-color: #004494;" onclick="alert('¡Lista de productos actualizada para el cliente!');">Guardar Cambios de Lista</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SECCIÓN 3: PEDIDOS ==================== -->
+      <div class="tab-pane fade" id="sec-pedidos" role="tabpanel">
+        <div class="d-flex justify-content-between align-items-center my-4">
+          <div>
+            <h3 class="fw-bold">Gestión de Pedidos</h3>
+            <p class="text-muted m-0">Monitoreo, cambio de estados y filtrado de pedidos institucionales</p>
+          </div>
+        </div>
+
+        <!-- BARRA DE FILTROS (INCLUYE FILTRO DE ESTATUS) -->
+        <div class="card card-custom p-3 mb-4">
+          <div class="row g-2 align-items-end">
+            <!-- Cliente -->
+            <div class="col-md-2">
+              <label class="form-label fw-semibold text-secondary" style="font-size: 13px;">Cliente</label>
+              <select class="form-select form-select-sm" id="filtroCliente">
+                <option value="">Todos los clientes</option>
+                <option value="Cinépolis">Cinépolis</option>
+                <option value="McDonald's">McDonald's</option>
+                <option value="OXXO">OXXO</option>
+              </select>
+            </div>
+            
+            <!-- Planta -->
+            <div class="col-md-2">
+              <label class="form-label fw-semibold text-secondary" style="font-size: 13px;">Planta de Origen</label>
+              <select class="form-select form-select-sm" id="filtroPlanta">
+                <option value="">Todas las plantas</option>
+                <option value="Tlalnepantla">Planta Tlalnepantla</option>
+                <option value="Guadalajara">Planta Guadalajara</option>
+                <option value="Monterrey">Planta Monterrey</option>
+              </select>
+            </div>
+
+            <!-- Estatus (ACTUALIZADO) -->
+            <div class="col-md-2">
+              <label class="form-label fw-semibold text-secondary" style="font-size: 13px;">Estatus</label>
+              <select class="form-select form-select-sm" id="filtroEstatus">
+                <option value="">Todos los estatus</option>
+                <option value="Guardado">Guardado</option>
+                <option value="Enviado">Enviado</option>
+                <option value="Producción">Producción</option>
+                <option value="En ruta">En ruta</option>
+                <option value="Entregado">Entregado</option>
+                <option value="Con retraso">Con retraso</option>
+              </select>
+            </div>
+
+            <!-- Fecha Inicio -->
+            <div class="col-md-2">
+              <label class="form-label fw-semibold text-secondary" style="font-size: 13px;">Fecha Inicio</label>
+              <input type="date" class="form-control form-control-sm" id="filtroFechaInicio">
+            </div>
+
+            <!-- Fecha Fin -->
+            <div class="col-md-2">
+              <label class="form-label fw-semibold text-secondary" style="font-size: 13px;">Fecha Fin</label>
+              <input type="date" class="form-control form-control-sm" id="filtroFechaFin">
+            </div>
+
+            <!-- Botones de Acción -->
+            <div class="col-md-2 d-flex gap-1">
+              <button class="btn btn-sm btn-primary w-100 fw-semibold" style="background-color: #004494;" onclick="filtrarPedidos();">
+                <i class="bi bi-funnel me-1"></i> Filtrar
+              </button>
+              <button class="btn btn-sm btn-outline-secondary" title="Limpiar Filtros" onclick="limpiarFiltros();">
+                <i class="bi bi-arrow-counterclockwise"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabla de Pedidos -->
+        <div class="card card-custom p-3">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Folio</th>
+                <th>Cliente</th>
+                <th>Planta</th>
+                <th>Fecha Pedido</th>
+                <th>Monto Total</th>
+                <th>Estatus</th>
+                <th class="text-end">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>#PED-9821</strong></td>
+                <td>Cinépolis</td>
+                <td><span class="badge bg-light text-dark border">Tlalnepantla</span></td>
+                <td>03/08/2026</td>
+                <td>$15,420.00 MXN</td>
+                <td><span class="badge bg-info text-dark"><i class="bi bi-gear-wide-connected me-1"></i> Producción</span></td>
+                <td class="text-end">
+                  <button class="btn btn-sm btn-outline-secondary me-1" data-bs-toggle="modal" data-bs-target="#modalCambiarEstado" title="Cambiar Estado">
+                    <i class="bi bi-arrow-repeat me-1"></i> Estado
+                  </button>
+                  <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalDetallePedido">
+                    <i class="bi bi-eye me-1"></i> Ver
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>#PED-9822</strong></td>
+                <td>OXXO</td>
+                <td><span class="badge bg-light text-dark border">Monterrey</span></td>
+                <td>02/08/2026</td>
+                <td>$42,150.00 MXN</td>
+                <td><span class="badge bg-danger"><i class="bi bi-exclamation-triangle me-1"></i> Con retraso</span></td>
+                <td class="text-end">
+                  <button class="btn btn-sm btn-outline-secondary me-1" data-bs-toggle="modal" data-bs-target="#modalCambiarEstado" title="Cambiar Estado">
+                    <i class="bi bi-arrow-repeat me-1"></i> Estado
+                  </button>
+                  <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalDetallePedido">
+                    <i class="bi bi-eye me-1"></i> Ver
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>#PED-9823</strong></td>
+                <td>McDonald's</td>
+                <td><span class="badge bg-light text-dark border">Guadalajara</span></td>
+                <td>01/08/2026</td>
+                <td>$28,900.00 MXN</td>
+                <td><span class="badge bg-secondary"><i class="bi bi-journal-bookmark me-1"></i> Guardado</span></td>
+                <td class="text-end">
+                  <button class="btn btn-sm btn-outline-secondary me-1" data-bs-toggle="modal" data-bs-target="#modalCambiarEstado" title="Cambiar Estado">
+                    <i class="bi bi-arrow-repeat me-1"></i> Estado
+                  </button>
+                  <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalDetallePedido">
+                    <i class="bi bi-eye me-1"></i> Ver
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ==================== SECCIÓN 4: PLANTAS ==================== -->
+      <div class="tab-pane fade" id="sec-plantas" role="tabpanel">
+        <div class="d-flex justify-content-between align-items-center my-4">
+          <div>
+            <h3 class="fw-bold">Plantas de Producción</h3>
+            <p class="text-muted m-0">Ubicaciones y plantas asignadas para distribución</p>
+          </div>
+        </div>
+
+        <div class="card card-custom p-3">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Nombre de Planta</th>
+                <th>Ubicación / Región</th>
+                <th>Contacto Responsable</th>
+                <th>Clientes Asignados</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Planta Tlalnepantla</strong></td>
+                <td>Estado de México - Centro</td>
+                <td>Ing. Carlos Mendoza</td>
+                <td><span class="badge bg-info text-dark">12 Clientes</span></td>
+              </tr>
+              <tr>
+                <td><strong>Planta Guadalajara</strong></td>
+                <td>Jalisco - Occidente</td>
+                <td>Ing. Sofia Ramírez</td>
+                <td><span class="badge bg-info text-dark">8 Clientes</span></td>
+              </tr>
+              <tr>
+                <td><strong>Planta Monterrey</strong></td>
+                <td>Nuevo León - Norte</td>
+                <td>Ing. Fernando Torres</td>
+                <td><span class="badge bg-info text-dark">15 Clientes</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== MODALES ==================== -->
+
+  <!-- MODAL NUEVO: GESTIÓN DE SUCURSALES Y CONTACTOS DE UN CLIENTE -->
+  <div class="modal fade" id="modalGestionSucursales" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div>
+            <h5 class="modal-title fw-bold" id="tituloModalSucursales">Sucursales de Cinépolis</h5>
+            <small class="text-muted">Administración de unidades operativas y sus respectivos contactos directos</small>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="fw-bold m-0"><i class="bi bi-geo-alt-fill text-primary me-1"></i> Sucursales Registradas</h6>
+            <button class="btn btn-sm btn-success fw-semibold" onclick="alert('Formulario para registrar nueva sucursal');">
+              <i class="bi bi-plus-circle me-1"></i> Nueva Sucursal
+            </button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>Nombre Sucursal</th>
+                  <th>Dirección</th>
+                  <th>Contacto Responsable</th>
+                  <th>Teléfono / Correo</th>
+                  <th class="text-center">Estado</th>
+                  <th class="text-end">Acción</th>
+                </tr>
+              </thead>
+              <tbody id="tablaSucursalesBody">
+                <tr>
+                  <td><strong>CDMX - Universidad</strong></td>
+                  <td><small class="text-muted">Av. Universidad 1000, Coyoacán</small></td>
+                  <td>Roberto Gómez <br><small class="text-muted">Gerente de Alimentos</small></td>
+                  <td><small>55-1234-5678<br>rgomez@cinepolis.com</small></td>
+                  <td class="text-center"><span class="badge bg-success-subtle text-success fw-bold">Activa</span></td>
+                  <td class="text-end">
+                    <button class="btn btn-sm btn-outline-secondary" title="Editar Sucursal"><i class="bi bi-pencil"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>CDMX - Perisur</strong></td>
+                  <td><small class="text-muted">Anillo Periférico 4690, Coyoacán</small></td>
+                  <td>Laura Martínez <br><small class="text-muted">Jefa de Compras</small></td>
+                  <td><small>55-8765-4321<br>lmartinez@cinepolis.com</small></td>
+                  <td class="text-center"><span class="badge bg-success-subtle text-success fw-bold">Activa</span></td>
+                  <td class="text-end">
+                    <button class="btn btn-sm btn-outline-secondary" title="Editar Sucursal"><i class="bi bi-pencil"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>Edomex - Satélite</strong></td>
+                  <td><small class="text-muted">Centro Comercial Satélite, Naucalpan</small></td>
+                  <td>Carlos Mendoza <br><small class="text-muted">Supervisión Operativa</small></td>
+                  <td><small>55-5555-0192<br>cmendoza@cinepolis.com</small></td>
+                  <td class="text-center"><span class="badge bg-success-subtle text-success fw-bold">Activa</span></td>
+                  <td class="text-end">
+                    <button class="btn btn-sm btn-outline-secondary" title="Editar Sucursal"><i class="bi bi-pencil"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CAMBIAR ESTADO DE PEDIDO -->
+  <div class="modal fade" id="modalCambiarEstado" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold">Actualizar Estado del Pedido</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Seleccionar Nuevo Estado:</label>
+              <select class="form-select" id="selectNuevoEstado" onchange="evaluarEstadoRetraso()">
+                <option value="Guardado">Guardado (No enviado)</option>
+                <option value="Enviado">Enviado (Pendiente a Producción)</option>
+                <option value="Producción">Producción (En Planta)</option>
+                <option value="En ruta">En ruta (En traslado a tienda)</option>
+                <option value="Entregado">Entregado (Completado)</option>
+                <option value="Con retraso">Con retraso</option>
+              </select>
+            </div>
+
+            <!-- Campo Condicional de Observaciones de Retraso -->
+            <div class="mb-3 d-none" id="divObservacionRetraso">
+              <label class="form-label fw-bold text-danger">
+                <i class="bi bi-exclamation-circle me-1"></i> Motivo / Observación del Retraso:
+              </label>
+              <textarea class="form-control border-danger" id="txtObservacion" rows="3" placeholder="Escriba aquí la razón del retraso (ej. Paro técnico en línea 2 de planta, falla mecánica en transporte, etc.)..."></textarea>
+              <small class="text-muted" style="font-size: 11px;">Esta observación quedará registrada en la bitácora del pedido.</small>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" style="background-color: #004494;" onclick="guardarNuevoEstado();">Actualizar Estado</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: NUEVO CLIENTE -->
+  <div class="modal fade" id="modalNuevoCliente" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold">Registrar Nuevo Cliente</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Nombre del Cliente / Empresa</label>
+              <input type="text" class="form-control" placeholder="Ej. Cinépolis" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Canal Institucional</label>
+              <select class="form-select">
+                <option selected disabled>Selecciona un canal</option>
+                <option value="entretenimiento">Entretenimiento</option>
+                <option value="restaurantes">Restaurantes / HORECA</option>
+                <option value="autoservicio">Autoservicio</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Nombre de Contacto Principal</label>
+              <input type="text" class="form-control" placeholder="Nombre completo">
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Correo Electrónico</label>
+                <input type="email" class="form-control" placeholder="correo@empresa.com">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Teléfono</label>
+                <input type="tel" class="form-control" placeholder="+52...">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" style="background-color: #004494;" onclick="alert('¡Cliente registrado exitosamente!');">Guardar Cliente</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: EDITAR CLIENTE -->
+  <div class="modal fade" id="modalEditarCliente" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold">Editar Cliente: Cinépolis</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Nombre del Cliente / Empresa</label>
+              <input type="text" class="form-control" value="Cinépolis">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Canal Institucional</label>
+              <select class="form-select">
+                <option value="entretenimiento" selected>Entretenimiento</option>
+                <option value="restaurantes">Restaurantes / HORECA</option>
+                <option value="autoservicio">Autoservicio</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Nombre de Contacto Principal</label>
+              <input type="text" class="form-control" value="Roberto Gómez">
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Correo Electrónico</label>
+                <input type="email" class="form-control" value="rgomez@cinepolis.com">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Teléfono</label>
+                <input type="tel" class="form-control" value="+52 55 1234 5678">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" style="background-color: #004494;" onclick="alert('¡Cambios guardados con éxito!');">Guardar Cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CREAR NUEVO PRODUCTO -->
+  <div class="modal fade" id="modalNuevoProducto" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold">Agregar Nuevo Producto al Catálogo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">SKU / Código</label>
+                <input type="text" class="form-control" placeholder="Ej. BIM-5001" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Marca</label>
+                <select class="form-select">
+                  <option selected>Bimbo</option>
+                  <option>Tía Rosa</option>
+                  <option>Wonder</option>
+                  <option>Marinela</option>
+                </select>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Nombre del Producto</label>
+              <input type="text" class="form-control" placeholder="Ej. Medias Noches 8P 340g">
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Categoría</label>
+                <input type="text" class="form-control" placeholder="Ej. Pan Dulce">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Precio Base (MXN)</label>
+                <input type="number" step="0.50" class="form-control" placeholder="0.00">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" style="background-color: #004494;" onclick="alert('¡Producto agregado al catálogo general!');">Guardar Producto</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: VER DETALLE DE PEDIDO -->
+  <div class="modal fade" id="modalDetallePedido" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div>
+            <h5 class="modal-title fw-bold">Detalle de Pedido #PED-9821</h5>
+            <small class="text-muted">Cliente: Cinépolis | Fecha: 03/08/2026</small>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <p class="m-0"><strong>Estatus Actual:</strong> <span class="badge bg-info text-dark">Producción</span></p>
+              <p class="m-0"><strong>Planta de Origen:</strong> Planta Tlalnepantla</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+              <p class="m-0"><strong>Contacto Pedido:</strong> Roberto Gómez</p>
+              <p class="m-0"><strong>Lugar de Entrega:</strong> Almacén Central CDMX</p>
+            </div>
+          </div>
+
+          <h6 class="fw-bold mt-4 mb-2">Productos Solicitados:</h6>
+          <table class="table table-bordered table-sm align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>SKU</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unit.</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>BIM-2045</td>
+                <td>Pan Hamburguesa Super SÉSAMO 8P</td>
+                <td>150 cjs</td>
+                <td>$52.00</td>
+                <td>$7,800.00 MXN</td>
+              </tr>
+              <tr>
+                <td>BIM-1029</td>
+                <td>Pan de Molde Blanco Grande 680g</td>
+                <td>170 cjs</td>
+                <td>$44.82</td>
+                <td>$7,620.00 MXN</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="4" class="text-end fw-bold">Total Pedido:</td>
+                <td class="fw-bold text-primary">$15,420.00 MXN</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" style="background-color: #004494;" onclick="alert('Imprimiendo comprobante de pedido...');"><i class="bi bi-printer me-1"></i> Imprimir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOOTSTRAP JAVASCRIPT -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- LÓGICA DE JAVASCRIPT -->
+  <script>
+    function evaluarEstadoRetraso() {
+      const selectEstado = document.getElementById('selectNuevoEstado');
+      const divRetraso = document.getElementById('divObservacionRetraso');
+      
+      if (selectEstado.value === 'Con retraso') {
+        divRetraso.classList.remove('d-none');
+      } else {
+        divRetraso.classList.add('d-none');
+      }
+    }
+
+    function guardarNuevoEstado() {
+      const selectEstado = document.getElementById('selectNuevoEstado').value;
+      const txtObs = document.getElementById('txtObservacion').value;
+
+      if (selectEstado === 'Con retraso' && txtObs.trim() === '') {
+        alert('Por favor, especifique el motivo/observación del retraso antes de guardar.');
+        return;
+      }
+
+      alert('¡Estado del pedido actualizado a "' + selectEstado + '" correctamente!');
+      
+      const modalElement = document.getElementById('modalCambiarEstado');
+      const modalInstance = bootstrap.Modal.getInstance(modalElement);
+      if (modalInstance) {
+        modalInstance.hide();
+      }
+    }
+
+    function limpiarFiltros() {
+      document.getElementById('filtroCliente').value = '';
+      document.getElementById('filtroPlanta').value = '';
+      document.getElementById('filtroEstatus').value = '';
+      document.getElementById('filtroFechaInicio').value = '';
+      document.getElementById('filtroFechaFin').value = '';
+    }
+
+    function filtrarPedidos() {
+      const cliente = document.getElementById('filtroCliente').value;
+      const planta = document.getElementById('filtroPlanta').value;
+      const estatus = document.getElementById('filtroEstatus').value;
+      
+      alert(`Filtrando pedidos por:\n- Cliente: ${cliente || 'Todos'}\n- Planta: ${planta || 'Todas'}\n- Estatus: ${estatus || 'Todos'}`);
+    }
+
+    function cargarSucursales(cliente) {
+      document.getElementById('tituloModalSucursales').innerText = 'Sucursales de ' + cliente;
+    }
+  </script>
+</body>
+</html>
